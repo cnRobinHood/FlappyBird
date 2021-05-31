@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/game_background">
+
+    <LinearLayout
+        android:id="@+id/activity_starting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- The title -->
+        <ImageView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:src="@drawable/ic_title" />
+
+        <!-- The two buttons -->
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="95dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/bt_setting"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:onClick="showSettingsDialog"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_setting"
+                android:text="@string/bt_setting" />
+            <Button
+                android:id="@+id/bt_resume_game"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="200dp"
+                android:background="@android:color/transparent"
+                android:text="resume game"
+                android:textAllCaps="false"
+                android:visibility="invisible"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/bt_start_game"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+
+                android:background="@android:color/transparent"
+                android:onClick="goToGameActivity"
+                android:text="@string/bt_start"
+                android:textAllCaps="false"
+                android:textSize="30sp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+    <!-- The FloatingActionButton to adjust the threshold of the voice -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_ranklist"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:onClick="showRankingListDialog"
+        android:src="@drawable/ic_volume_24dp" />
+</RelativeLayout>

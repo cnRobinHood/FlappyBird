@@ -1,0 +1,79 @@
+package com.lc.flappybird.widget;
+
+import android.app.ActivityManager;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.RemoteViews;
+
+import com.lc.flappybird.R;
+import com.lc.flappybird.activity.StartingActivity;
+import com.lc.flappybird.service.RankingListWidgetService;
+
+import java.util.List;
+
+public class RankingListAppWidgetProvider extends AppWidgetProvider {
+
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        // Perform this loop procedure for each App Widget that belongs to this provider
+        for (int appWidgetId : appWidgetIds) {
+            Intent intent = new Intent(context, RankingListWidgetService.class);
+            RemoteViews rv = new RemoteViews(context.getPackageName(),
+                    R.layout.rankiinglist_widget);
+            //每一个widget都可以从ListWidgetService中获得数据
+            rv.setRemoteAdapter(appWidgetId, R.id.lv_rankinglist, intent);
+            //如果ListView中没有数据填充，那么就显示TextView
+            rv.setEmptyView(R.id.lv_rankinglist, R.id.tv_list_empty);
+
+            Intent viewIntent = new Intent(context, StartingActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(context, 0, viewIntent, 0);
+            rv.setOnClickPendingIntent(R.id.liner_widget, pi);
+            rv.setPendingIntentTemplate(R.id.lv_rankinglist, pi);
+            manager.updateAppWidget(appWidgetId, rv);
+        }
+
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        Intent intent = new Intent();
+        if (!isServiceExisted(context, "com.lc.flappybird.NotifiDataSetChangeService")) {
+            intent.setComponent(new ComponentName("com.lc.flappybird", "com.lc.flappybird.NotifiDataSetChangeService"));
+            try {
+                context.startService(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onDisabled(Context context) {
+        super.onDisabled(context);
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.lc.flappybird", "com.lc.flappybird.NotifiDataSetChangeService"));
+        context.stopService(intent);
+    }
+
+    public static boolean isServiceExisted(Context context, String className) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(Integer.MAX_VALUE);
+        if (!(serviceList.size() > 0)) {
+            return false;
+        }
+        for (int i = 0; i < serviceList.size(); i++) {
+            ActivityManager.RunningServiceInfo serviceInfo = serviceList.get(i);
+            ComponentName serviceName = serviceInfo.service;
+            if (serviceName.getClassName().equals(className)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+

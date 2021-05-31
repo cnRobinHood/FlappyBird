@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lc.flappybird">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <queries>
+        <provider android:authorities="com.demo.flappybirdprovider.RankListProvider" />
+    </queries>
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_bird"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_bird"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.lc.flappybird.activity.StartingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.lc.flappybird.activity.GameActivity"
+            android:hardwareAccelerated="true" />
+
+        <receiver android:name="com.lc.flappybird.widget.RankingListAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/rankinglist_appwidget_info" />
+        </receiver>
+
+        <service
+            android:name="com.lc.flappybird.service.RankingListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name="com.lc.flappybird.service.NotifiDataSetChangeService" />
+
+        <provider
+            android:name="com.lc.flappybird.provider.RankListProvider"
+            android:authorities="com.lc.flappybird.provider.RankListProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":provider" />
+    </application>
+
+</manifest>

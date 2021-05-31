@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">跳跳鸟</string>
+    <string name="bt_start">开始游戏</string>
+    <string name="bt_setting">设置</string>
+</resources>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FlappyBird</string>
+    <string name="bt_start">Start Game</string>
+    <string name="bt_setting">Settings</string>
+</resources>
