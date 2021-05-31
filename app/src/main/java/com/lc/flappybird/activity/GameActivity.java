@@ -47,8 +47,6 @@ public class GameActivity extends AppCompatActivity {
     public boolean isResumeGame;
     private Thread setNewTimerThread;
 
-    private AlertDialog.Builder alertDialog;
-
     private MediaPlayer mediaPlayer;
 
     private int gameMode;
@@ -76,22 +74,21 @@ public class GameActivity extends AppCompatActivity {
                         // Cancel the timer
                         timer.cancel();
                         timer.purge();
-                        Log.d(TAG, "handleMessage: i will stop Chronometer");
                         mChronometer.stop();
                         long time = (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000;
-                        alertDialog = new AlertDialog.Builder(GameActivity.this);
-                        alertDialog.setTitle("GAME OVER");
-                        alertDialog.setMessage("Score: " + String.valueOf(gameView.getScore()) +
-                                "\n" + "Time: " + time + " seconds\n" +
-                                "Would you like to RESTART?");
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
+                        alertDialog.setTitle(R.string.gameover);
+                        alertDialog.setMessage(id2String(R.string.score) + ": " + gameView.getScore() +
+                                "\n" + id2String(R.string.time) + ": " + time + " " + id2String(R.string.second) + "\n" +
+                                id2String(R.string.restart_game));
                         alertDialog.setCancelable(false);
-                        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 GameActivity.this.restartGame();
                             }
                         });
-                        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        alertDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedPreferences.Editor editor = getSharedPreferences("name", MODE_MULTI_PROCESS).edit();
@@ -119,6 +116,10 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     };
+
+    private String id2String(int id) {
+        return getResources().getString(id);
+    }
 
     private void updateRankingListDB(String username, int score, int time) {
         // 设置URI

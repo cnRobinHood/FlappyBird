@@ -12,4 +12,9 @@
     <string name="resume_game">resume game</string>
     <string name="score">score</string>
     <string name="time">spendtime</string>
+    <string name="gameover">Game Over</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="restart_game">Would you like to RESTART?</string>
+    <string name="second">seconds</string>
 </resources>

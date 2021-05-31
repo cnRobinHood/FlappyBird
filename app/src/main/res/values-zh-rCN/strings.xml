@@ -12,4 +12,10 @@
     <string name="resume_game">恢复游戏</string>
     <string name="score">分数</string>
     <string name="time">用时</string>
+    <string name="gameover">游戏结束</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="restart_game">重新开始游戏?</string>
+    <string name="second">秒</string>
+
 </resources>
