@@ -44,7 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="200dp"
                 android:background="@android:color/transparent"
-                android:text="resume game"
+                android:text="@string/resume_game"
                 android:textAllCaps="false"
                 android:visibility="invisible"
                 android:textSize="30sp" />
@@ -70,7 +70,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:onClick="showRankingListDialog"

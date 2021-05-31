@@ -2,4 +2,14 @@
     <string name="app_name">跳跳鸟</string>
     <string name="bt_start">开始游戏</string>
     <string name="bt_setting">设置</string>
+    <string name="setting">设置</string>
+    <string name="user_name">用户名</string>
+    <string name="speed">速度</string>
+    <string name="volume">音量</string>
+    <string name="clear_rank_data">清除数据</string>
+    <string name="ranking_list">排行榜</string>
+    <string name="no_items_available">没有数据</string>
+    <string name="resume_game">恢复游戏</string>
+    <string name="score">分数</string>
+    <string name="time">用时</string>
 </resources>

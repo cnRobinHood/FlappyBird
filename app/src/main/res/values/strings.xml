@@ -2,4 +2,14 @@
     <string name="app_name">FlappyBird</string>
     <string name="bt_start">Start Game</string>
     <string name="bt_setting">Settings</string>
+    <string name="setting">Setting</string>
+    <string name="user_name">username</string>
+    <string name="speed">speed</string>
+    <string name="volume">volume</string>
+    <string name="clear_rank_data">clear rank data</string>
+    <string name="ranking_list">Ranking List</string>
+    <string name="no_items_available">No Items Available</string>
+    <string name="resume_game">resume game</string>
+    <string name="score">score</string>
+    <string name="time">spendtime</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="Ranking List"
+        android:text="@string/ranking_list"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <FrameLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="No Items Available"
+            android:text="@string/no_items_available"
             android:textSize="22sp" />
     </FrameLayout>
 

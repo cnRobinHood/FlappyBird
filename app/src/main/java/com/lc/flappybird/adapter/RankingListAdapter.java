@@ -33,9 +33,9 @@ public class RankingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (0 == position) {
-            ((RankListViewHolder) holder).mGameTimeTextView.setText("SpendTime");
-            ((RankListViewHolder) holder).mScoreTextView.setText("Scores");
-            ((RankListViewHolder) holder).mUserNameTextView.setText("UserName");
+            ((RankListViewHolder) holder).mGameTimeTextView.setText(R.string.time);
+            ((RankListViewHolder) holder).mScoreTextView.setText(R.string.score);
+            ((RankListViewHolder) holder).mUserNameTextView.setText(R.string.user_name);
             return;
         }
         position -= 1;

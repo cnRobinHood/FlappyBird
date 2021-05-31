@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:text="Setting"
+        android:text="@string/setting"
         android:textSize="25sp" />
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="user name:"
+            android:text="@string/user_name"
             android:textSize="15sp" />
 
         <EditText
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="speed:"
+            android:text="@string/speed"
             android:textSize="15sp" />
 
         <SeekBar
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="volume:"
+            android:text="@string/volume"
             android:textSize="15sp" />
 
         <SeekBar
@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="clear rank data" />
+        android:text="@string/clear_rank_data" />
 
 
 </LinearLayout>
