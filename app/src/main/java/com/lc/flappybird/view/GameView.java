@@ -9,14 +9,12 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.lc.flappybird.R;
 import com.lc.flappybird.activity.GameActivity;
@@ -26,18 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
 import static android.content.Context.MODE_PRIVATE;
 
 public class GameView extends TextureView implements TextureView.SurfaceTextureListener {
 
-    private float measuredWidth;
+    private float mMeasuredWidth;
 
-    private float measuredHeight;
+    private float mMeasuredHeight;
 
-    private Paint paint;
+    private Paint mPaint;
 
-    private Bitmap bitmap;
+    private Bitmap mBitmap;
 
     // The colors
     private static final int colorPipe = Color.parseColor("#C75B39");
@@ -109,12 +106,12 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
     }
 
     private void init() {
-        paint = new Paint();
-        paint.setAntiAlias(true);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
         setOpaque(false);
         // For the bird
-        bitmap = getBitmapFromVectorDrawable(getContext(), R.drawable.ic_bird);
-        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
+        mBitmap = getBitmapFromVectorDrawable(getContext(), R.drawable.ic_bird);
+        mBitmap = Bitmap.createScaledBitmap(mBitmap, 100, 100, false);
 
         // For the pipes
         pipeList = new ArrayList<>();
@@ -122,7 +119,7 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
     }
 
     private float getSpeed() {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("name", MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("name", MODE_PRIVATE);
         return (float) ((sharedPreferences.getInt("speed", 0) / 10.0 + 1));
     }
 
@@ -130,15 +127,15 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
      * Updates the UI.
      */
     public void update() {
-        paint.setStyle(Paint.Style.FILL);
+        mPaint.setStyle(Paint.Style.FILL);
         Canvas canvas = lockCanvas();
         // Clear the canvas
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
         // Draw the bird
-        canvas.drawBitmap(bitmap, positionX - 100.0f / 2.0f, positionY - 100.0f / 2.0f, null);
+        canvas.drawBitmap(mBitmap, positionX - 100.0f / 2.0f, positionY - 100.0f / 2.0f, null);
         // Draw the pipes
-        paint.setColor(colorPipe);
+        mPaint.setColor(colorPipe);
         List<Integer> removeList = new ArrayList<>();
         int size = pipeList.size();
         for (int index = 0; index < size; index++) {
@@ -150,15 +147,15 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
                 canvas.drawRect(pipe.getPositionX() - pipeWidth / 2.0f,
                         0.0f,
                         pipe.getPositionX() + pipeWidth / 2.0f,
-                        measuredHeight - pipe.getHeight() - gap,
-                        paint);
+                        mMeasuredHeight - pipe.getHeight() - gap,
+                        mPaint);
 
                 // Draw the lower part of the pipe
                 canvas.drawRect(pipe.getPositionX() - pipeWidth / 2.0f,
-                        measuredHeight - pipe.getHeight(),
+                        mMeasuredHeight - pipe.getHeight(),
                         pipe.getPositionX() + pipeWidth / 2.0f,
-                        measuredHeight,
-                        paint);
+                        mMeasuredHeight,
+                        mPaint);
             }
         }
         removeItemsFromPipeList(removeList);
@@ -193,14 +190,14 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
         super.onSizeChanged(w, h, oldw, oldh);
 
         // Get the measured size of the view
-        measuredWidth = getMeasuredWidth();
-        measuredHeight = getMeasuredHeight();
+        mMeasuredWidth = getMeasuredWidth();
+        mMeasuredHeight = getMeasuredHeight();
         speed = getSpeed();
         Log.d(TAG, "onSizeChanged: " + speed);
         pipeVelocity *= speed;
         // Set the initial position
         if (!((GameActivity) getContext()).isResumeGame) {
-            setPosition(measuredWidth / 2.0f, measuredHeight / 2.0f);
+            setPosition(mMeasuredWidth / 2.0f, mMeasuredHeight / 2.0f);
         }
         if (((GameActivity) getContext()).isResumeGame) {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("name", MODE_PRIVATE);
@@ -227,9 +224,6 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
 
     public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            drawable = (DrawableCompat.wrap(drawable)).mutate();
-        }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
                 drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -248,14 +242,14 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
     public boolean isAlive() {
         // Check if the bird hits the pipes
         for (Pipe pipe : pipeList) {
-            if ((pipe.getPositionX() >= measuredWidth / 2.0f - pipeWidth / 2.0f - 100.0f / 2.0f) &&
-                    (pipe.getPositionX() <= measuredWidth / 2.0f + pipeWidth / 2.0f + 100.0f / 2.0f)) {
-                if ((positionY <= measuredHeight - pipe.getHeight() - gap + 50.0f / 2.0f) ||
-                        (positionY >= measuredHeight - pipe.getHeight() - 50.0f / 2.0f)) {
+            if ((pipe.getPositionX() >= mMeasuredWidth / 2.0f - pipeWidth / 2.0f - 100.0f / 2.0f) &&
+                    (pipe.getPositionX() <= mMeasuredWidth / 2.0f + pipeWidth / 2.0f + 100.0f / 2.0f)) {
+                if ((positionY <= mMeasuredHeight - pipe.getHeight() - gap + 50.0f / 2.0f) ||
+                        (positionY >= mMeasuredHeight - pipe.getHeight() - 50.0f / 2.0f)) {
                     return false;
                 } else {
                     if (pipe.getPositionX() - pipeVelocity <
-                            measuredWidth / 2.0f - pipeWidth / 2.0f - 100.0f / 2.0f) {
+                            mMeasuredWidth / 2.0f - pipeWidth / 2.0f - 100.0f / 2.0f) {
                         score++;
                         // Update the score in MainActivity
                         Context context = getContext();
@@ -269,7 +263,7 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
         }
 
         // Check if the bird goes beyond the border
-        if ((positionY < 0.0f + 100.0f / 2.0f) || (positionY > measuredHeight - 100.0f / 2.0f)) {
+        if ((positionY < 0.0f + 100.0f / 2.0f) || (positionY > mMeasuredHeight - 100.0f / 2.0f)) {
             return false;
         }
 
@@ -322,7 +316,7 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
         score = 0;
 
         // Set the initial position
-        setPosition(measuredWidth / 2.0f, measuredHeight / 2.0f);
+        setPosition(mMeasuredWidth / 2.0f, mMeasuredHeight / 2.0f);
 
         // Add the initial pipe
         if (!((GameActivity) getContext()).isResumeGame) {
@@ -336,8 +330,8 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
      */
     private void addPipe() {
         Log.d(TAG, "addPipe: ");
-        pipeList.add(new Pipe(measuredWidth + pipeWidth / 2.0f,
-                base + (measuredHeight - 2 * base - gap) * new Random().nextFloat()));
+        pipeList.add(new Pipe(mMeasuredWidth + pipeWidth / 2.0f,
+                base + (mMeasuredHeight - 2 * base - gap) * new Random().nextFloat()));
     }
 
 }

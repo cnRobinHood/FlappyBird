@@ -18,10 +18,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.lc.flappybird.R;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsDialogFragment extends DialogFragment {
-    private EditText editText;
+    private EditText mUserNameEditText;
     private SeekBar mSpeedBar;
     private SeekBar mVolumeBar;
 
@@ -29,26 +29,26 @@ public class SettingsDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, null);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name", MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name", MODE_PRIVATE);
         String username = sharedPreferences.getString("userName", "temp");
         int volume = sharedPreferences.getInt("volume", 5);
         int speed = sharedPreferences.getInt("speed", 3);
-        editText = view.findViewById(R.id.et_username);
+        mUserNameEditText = view.findViewById(R.id.et_username);
         Button button = view.findViewById(R.id.bt_clear_rankdata);
         mSpeedBar = view.findViewById(R.id.sb_speed);
         mVolumeBar = view.findViewById(R.id.sb_volume);
         mSpeedBar.setProgress(speed);
         mVolumeBar.setProgress(volume);
         button.setOnClickListener(v -> deleteRankingListDB());
-        editText.setText(username);
+        mUserNameEditText.setText(username);
         return view;
     }
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences("name", MODE_MULTI_PROCESS).edit();
-        editor.putString("userName", editText.getText().toString());
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("name", MODE_PRIVATE).edit();
+        editor.putString("userName", mUserNameEditText.getText().toString());
         editor.putInt("volume", mVolumeBar.getProgress());
         editor.putInt("speed", mSpeedBar.getProgress());
         editor.apply();

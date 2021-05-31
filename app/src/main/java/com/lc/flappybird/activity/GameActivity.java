@@ -15,7 +15,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -24,9 +23,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lc.flappybird.view.GameView;
 import com.lc.flappybird.R;
 import com.lc.flappybird.domain.Pipe;
+import com.lc.flappybird.view.GameView;
 
 import org.litepal.LitePal;
 
@@ -36,8 +35,8 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity {
     private static final String TAG = "GameActivity";
 
-    private GameView gameView;
-    private TextView textViewScore;
+    private GameView mGameView;
+    private TextView mScoreTextView;
     private Chronometer mChronometer;
     private ImageButton mPauseButton;
     private boolean isFirstTouch;
@@ -47,23 +46,23 @@ public class GameActivity extends AppCompatActivity {
     public boolean isResumeGame;
     private Thread setNewTimerThread;
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
 
     private int gameMode;
     private boolean isPaused;
     private long lastLiveTime;
     private long pauseTime;
     private static final int TOUCH_MODE = 0x00;
-    private Timer timer;
+    private Timer mTimer;
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
                 case UPDATE: {
-                    if (gameView.isAlive()) {
+                    if (mGameView.isAlive()) {
                         isGameOver = false;
-                        gameView.update();
+                        mGameView.update();
                     } else {
                         if (isGameOver) {
                             break;
@@ -72,13 +71,13 @@ public class GameActivity extends AppCompatActivity {
                         }
 
                         // Cancel the timer
-                        timer.cancel();
-                        timer.purge();
+                        mTimer.cancel();
+                        mTimer.purge();
                         mChronometer.stop();
                         long time = (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000;
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
                         alertDialog.setTitle(R.string.gameover);
-                        alertDialog.setMessage(id2String(R.string.score) + ": " + gameView.getScore() +
+                        alertDialog.setMessage(id2String(R.string.score) + ": " + mGameView.getScore() +
                                 "\n" + id2String(R.string.time) + ": " + time + " " + id2String(R.string.second) + "\n" +
                                 id2String(R.string.restart_game));
                         alertDialog.setCancelable(false);
@@ -91,21 +90,21 @@ public class GameActivity extends AppCompatActivity {
                         alertDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = getSharedPreferences("name", MODE_MULTI_PROCESS).edit();
+                                SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
                                 editor.putBoolean("fresh", false);
                                 editor.apply();
                                 GameActivity.this.onBackPressed();
                             }
                         });
                         alertDialog.show();
-                        updateRankingListDB(getUserName(), gameView.getScore(), (int) time);
+                        updateRankingListDB(getUserName(), mGameView.getScore(), (int) time);
                     }
 
                     break;
                 }
 
                 case RESET_SCORE: {
-                    textViewScore.setText("0");
+                    mScoreTextView.setText("0");
                     isFirstTouch = true;
                     break;
                 }
@@ -164,8 +163,8 @@ public class GameActivity extends AppCompatActivity {
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         mTelephonyMgr.listen(new MyPhoneStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
         // Initialize the MediaPlayer
-        mediaPlayer = MediaPlayer.create(this, R.raw.sound_score);
-        mediaPlayer.setLooping(false);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.sound_score);
+        mMediaPlayer.setLooping(false);
 
 
         isFirstTouch = true;
@@ -181,35 +180,32 @@ public class GameActivity extends AppCompatActivity {
         });
         if (gameMode == TOUCH_MODE) {
             // Jump listener
-            gameView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            gameView.jump();
-                            if (isFirstTouch) {
-                                if (isResumeGame) {
-                                    mChronometer.setBase(SystemClock.elapsedRealtime() - lastLiveTime * 1000);
-                                    mChronometer.start();
-                                } else {
-                                    mChronometer.setBase(SystemClock.elapsedRealtime());
-                                    mChronometer.start();
-                                }
+            mGameView.setOnTouchListener((view, motionEvent) -> {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mGameView.jump();
+                        if (isFirstTouch) {
+                            if (isResumeGame) {
+                                mChronometer.setBase(SystemClock.elapsedRealtime() - lastLiveTime * 1000);
+                                mChronometer.start();
+                            } else {
+                                mChronometer.setBase(SystemClock.elapsedRealtime());
+                                mChronometer.start();
                             }
-                            isFirstTouch = false;
-                            break;
+                        }
+                        isFirstTouch = false;
+                        break;
 
-                        case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_UP:
 
 
-                            break;
+                        break;
 
-                        default:
-                            break;
-                    }
-
-                    return true;
+                    default:
+                        break;
                 }
+
+                return true;
             });
         }
         setNewTimerThread.start();
@@ -217,20 +213,20 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void initViews() {
-        gameView = findViewById(R.id.game_view);
-        textViewScore = findViewById(R.id.text_view_score);
+        mGameView = findViewById(R.id.game_view);
+        mScoreTextView = findViewById(R.id.text_view_score);
         mChronometer = findViewById(R.id.chronometer);
         mPauseButton = findViewById(R.id.ib_pause);
         if (isResumeGame) {
-            gameView.pipeList.clear();
-            gameView.pipeList.addAll(LitePal.findAll(Pipe.class));
-            SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_MULTI_PROCESS);
-            gameView.positionX = sharedPreferences.getFloat("positionX", 0.0f);
-            gameView.positionY = sharedPreferences.getFloat("positionY", 0.0f);
-            gameView.score = sharedPreferences.getInt("score", 0);
+            mGameView.pipeList.clear();
+            mGameView.pipeList.addAll(LitePal.findAll(Pipe.class));
+            SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
+            mGameView.positionX = sharedPreferences.getFloat("positionX", 0.0f);
+            mGameView.positionY = sharedPreferences.getFloat("positionY", 0.0f);
+            mGameView.score = sharedPreferences.getInt("score", 0);
             lastLiveTime = sharedPreferences.getLong("time", 0);
             Log.d(TAG, "initViews: " + lastLiveTime);
-            textViewScore.setText(String.valueOf(gameView.getScore()));
+            mScoreTextView.setText(String.valueOf(mGameView.getScore()));
         }
 
         mPauseButton.setOnClickListener(v -> {
@@ -240,11 +236,11 @@ public class GameActivity extends AppCompatActivity {
                 mChronometer.setBase(SystemClock.elapsedRealtime() - pauseTime * 1000);
                 mChronometer.start();
                 mPauseButton.setImageResource(R.drawable.ic_pause);
-                SharedPreferences.Editor editor = getSharedPreferences("name", MODE_MULTI_PROCESS).edit();
+                SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
                 Log.d(TAG, "initViews: ");
                 editor.putBoolean("fresh", false);
                 editor.apply();
-                SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_MULTI_PROCESS);
+                SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
                 Log.d(TAG, "initViews: " + sharedPreferences.getBoolean("fresh", false));
             } else {
                 onPauesProcess();
@@ -261,8 +257,8 @@ public class GameActivity extends AppCompatActivity {
             return;
         }
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
@@ -279,13 +275,13 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer.purge();
         }
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
         }
 
 
@@ -314,7 +310,7 @@ public class GameActivity extends AppCompatActivity {
      * @param score The new score.
      */
     public void updateScore(int score) {
-        textViewScore.setText(String.valueOf(score));
+        mScoreTextView.setText(String.valueOf(score));
     }
 
     /**
@@ -322,8 +318,8 @@ public class GameActivity extends AppCompatActivity {
      */
     public void playScoreMusic() {
         if (gameMode == TOUCH_MODE) {
-            mediaPlayer.start();
-            mediaPlayer.setVolume(getVolume() / 10, getVolume() / 10);
+            mMediaPlayer.start();
+            mMediaPlayer.setVolume(getVolume() / 10, getVolume() / 10);
         }
     }
 
@@ -337,17 +333,10 @@ public class GameActivity extends AppCompatActivity {
      */
     private void restartGame() {
         // Reset all the data of the over game in the GameView
-        gameView.resetData();
+        mGameView.resetData();
 
         // Refresh the TextView for displaying the score
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(RESET_SCORE);
-            }
-
-        }).start();
+        new Thread(() -> handler.sendEmptyMessage(RESET_SCORE)).start();
 
         if (gameMode == TOUCH_MODE) {
             isSetNewTimerThreadEnabled = true;
@@ -369,9 +358,9 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer.purge();
         }
         isSetNewTimerThreadEnabled = false;
         super.onBackPressed();
@@ -387,16 +376,16 @@ public class GameActivity extends AppCompatActivity {
         mChronometer.stop();
         mPauseButton.setImageResource(R.drawable.ic_start);
         LitePal.deleteAll(Pipe.class);
-        LitePal.markAsDeleted(gameView.pipeList);
-        LitePal.saveAll(gameView.pipeList);
+        LitePal.markAsDeleted(mGameView.pipeList);
+        LitePal.saveAll(mGameView.pipeList);
         SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
-        editor.putFloat("positionX", gameView.positionX);
-        editor.putFloat("positionY", gameView.positionY);
-        editor.putFloat("iteratorInt", gameView.iteratorInt);
-        editor.putInt("score", gameView.getScore());
+        editor.putFloat("positionX", mGameView.positionX);
+        editor.putFloat("positionY", mGameView.positionY);
+        editor.putFloat("iteratorInt", mGameView.iteratorInt);
+        editor.putInt("score", mGameView.getScore());
         pauseTime = (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000;
         editor.putLong("time", (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000);
-        if (gameView.isAlive()) {
+        if (mGameView.isAlive()) {
             editor.putBoolean("fresh", true);
         }
         editor.apply();

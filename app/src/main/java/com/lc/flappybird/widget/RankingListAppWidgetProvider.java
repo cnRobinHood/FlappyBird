@@ -19,16 +19,12 @@ public class RankingListAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, RankingListWidgetService.class);
             RemoteViews rv = new RemoteViews(context.getPackageName(),
                     R.layout.rankiinglist_widget);
-            //每一个widget都可以从ListWidgetService中获得数据
             rv.setRemoteAdapter(appWidgetId, R.id.lv_rankinglist, intent);
-            //如果ListView中没有数据填充，那么就显示TextView
             rv.setEmptyView(R.id.lv_rankinglist, R.id.tv_list_empty);
-
             Intent viewIntent = new Intent(context, StartingActivity.class);
             PendingIntent pi = PendingIntent.getActivity(context, 0, viewIntent, 0);
             rv.setOnClickPendingIntent(R.id.liner_widget, pi);

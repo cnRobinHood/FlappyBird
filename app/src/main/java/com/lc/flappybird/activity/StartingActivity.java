@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,28 +18,18 @@ import com.lc.flappybird.fragment.RankingListDialogFragment;
 import com.lc.flappybird.fragment.SettingsDialogFragment;
 
 import java.util.List;
-import java.util.Timer;
 
 public class StartingActivity extends AppCompatActivity {
     private static final String TAG = "StartingActivity";
-    public static final int SHINE = 1;
-    private boolean isStartButtonVisible = true;
-    private Button mStartGameButton;
-    private ImageButton mSettingButton;
     private Button mResumeGameButton;
-    Timer mShinetimer;
-    private RankingListDialogFragment mRankingListDialogFragment;
-    private SettingsDialogFragment mSettingsDialogFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting);
-        mSettingButton = findViewById(R.id.bt_setting);
-        mStartGameButton = findViewById(R.id.bt_start_game);
         mResumeGameButton = findViewById(R.id.bt_resume_game);
-        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_PRIVATE);
         if (sharedPreferences.getBoolean("fresh", false)) {
             Log.d(TAG, "onCreate: " + sharedPreferences.getBoolean("fresh", false));
             mResumeGameButton.setVisibility(View.VISIBLE);
@@ -70,28 +59,24 @@ public class StartingActivity extends AppCompatActivity {
     }
 
     public void showSettingsDialog(View view) {
-        mSettingsDialogFragment = new SettingsDialogFragment();
-        mSettingsDialogFragment.show(getSupportFragmentManager(), "dialog");
+        SettingsDialogFragment settingsDialogFragment = new SettingsDialogFragment();
+        settingsDialogFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     public void showRankingListDialog(View view) {
-        mRankingListDialogFragment = new RankingListDialogFragment();
-        mRankingListDialogFragment.show(getSupportFragmentManager(), "dialog");
+        RankingListDialogFragment rankingListDialogFragment = new RankingListDialogFragment();
+        rankingListDialogFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        if (mShinetimer != null) {
-            mShinetimer.cancel();
-            mShinetimer.purge();
-        }
     }
 
     @Override
     protected void onResume() {
-        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("fresh", false)) {
             mResumeGameButton.setVisibility(View.INVISIBLE);
         }

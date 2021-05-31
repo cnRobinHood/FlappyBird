@@ -23,7 +23,7 @@ import java.util.List;
 
 public class RankingListDialogFragment extends DialogFragment {
     RecyclerView mRankingListRecyclerView;
-    ImageButton mDissmissImageButton;
+    ImageButton mDismissImageButton;
     RankingListAdapter mRankingListAdapter;
     private List<UserData> mUserDataList;
 
@@ -40,8 +40,8 @@ public class RankingListDialogFragment extends DialogFragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRankingListRecyclerView.setLayoutManager(linearLayoutManager);
         mRankingListRecyclerView.setAdapter(mRankingListAdapter);
-        mDissmissImageButton = view.findViewById(R.id.bt_dissmiss);
-        mDissmissImageButton.setOnClickListener(v -> dismiss());
+        mDismissImageButton = view.findViewById(R.id.bt_dissmiss);
+        mDismissImageButton.setOnClickListener(v -> dismiss());
         return view;
     }
 

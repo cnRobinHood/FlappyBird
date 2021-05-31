@@ -30,9 +30,7 @@ public class NotifiDataSetChangeService extends Service {
                 Context context = NotifiDataSetChangeService.this;
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
                 ComponentName provider = new ComponentName(context, RankingListAppWidgetProvider.class);
-                //获得，所有利用AppWidgetProvider作为广播接收器的那些widget的id
                 int[] ids = manager.getAppWidgetIds(provider);
-                //这样当有数据发生变化时，这种变化会反映到所有桌面上的widget的ListView列表中
                 manager.notifyAppWidgetViewDataChanged(ids, R.id.lv_rankinglist);
             }
 

@@ -1,7 +1,6 @@
 package com.lc.flappybird.service;
 
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +17,7 @@ import java.util.List;
 
 public class RankingListWidgetService extends RemoteViewsService {
     private static final String TAG = "RankingListWidgetServic";
+    public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
 
     //实现RemoteViewService时要实现的抽象方法，获得一个RemoteViewsFactory实例
     @Override
@@ -30,13 +30,11 @@ public class RankingListWidgetService extends RemoteViewsService {
      * 这个RemoteViewsFactory就相当于BaseAdatper
      */
     private class RankingListRemoteViewFactory implements RemoteViewsFactory {
-        private Context mContext;
-        private int mAppWidgetId;
+        private final Context mContext;
         private List<UserData> mUserDataList = new ArrayList<>();
 
         public RankingListRemoteViewFactory(Context context, Intent intent) {
             mContext = context;
-            mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
         @Override
@@ -48,7 +46,7 @@ public class RankingListWidgetService extends RemoteViewsService {
         }
 
         private void getRankingList() {
-            Uri rankingListUri = Uri.parse("content://com.lc.flappybird.provider.RankListProvider/rankinglist");
+            Uri rankingListUri = Uri.parse(PROVIDER_URI);
             Cursor rankingListCursor = mContext.getContentResolver().query(rankingListUri, new String[]{"username", "score", "time"}, null, null, null);
             if (rankingListCursor != null) {
                 while (rankingListCursor.moveToNext()) {
