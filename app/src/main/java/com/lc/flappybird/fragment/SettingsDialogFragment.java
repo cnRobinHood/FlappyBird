@@ -30,6 +30,11 @@ public class SettingsDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, null);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name", MODE_PRIVATE);
         String username = sharedPreferences.getString("userName", "temp");
         int volume = sharedPreferences.getInt("volume", 5);
@@ -42,7 +47,6 @@ public class SettingsDialogFragment extends DialogFragment {
         mVolumeBar.setProgress(volume);
         button.setOnClickListener(v -> deleteRankingListDB());
         mUserNameEditText.setText(username);
-        return view;
     }
 
     @Override

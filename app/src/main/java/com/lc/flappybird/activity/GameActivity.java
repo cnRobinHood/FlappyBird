@@ -1,9 +1,9 @@
 package com.lc.flappybird.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -56,8 +56,8 @@ public class GameActivity extends AppCompatActivity {
     private Timer mTimer;
 
     public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
-
-    private Handler handler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
@@ -71,37 +71,8 @@ public class GameActivity extends AppCompatActivity {
                         } else {
                             isGameOver = true;
                         }
-
-                        // Cancel the timer
-                        mTimer.cancel();
-                        mTimer.purge();
-                        mChronometer.stop();
-                        long time = (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000;
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
-                        alertDialog.setTitle(R.string.gameover);
-                        alertDialog.setMessage(id2String(R.string.score) + ": " + mGameView.getScore() +
-                                "\n" + id2String(R.string.time) + ": " + time + " " + id2String(R.string.second) + "\n" +
-                                id2String(R.string.restart_game));
-                        alertDialog.setCancelable(false);
-                        alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                GameActivity.this.restartGame();
-                            }
-                        });
-                        alertDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
-                                editor.putBoolean("fresh", false);
-                                editor.apply();
-                                GameActivity.this.onBackPressed();
-                            }
-                        });
-                        alertDialog.show();
-                        updateRankingListDB(getUserName(), mGameView.getScore(), (int) time);
+                        gameOverProcess();
                     }
-
                     break;
                 }
 
@@ -117,6 +88,28 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void gameOverProcess() {
+        mTimer.cancel();
+        mTimer.purge();
+        mChronometer.stop();
+        long time = (SystemClock.elapsedRealtime() - mChronometer.getBase()) / 1000;
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
+        alertDialog.setTitle(R.string.gameover);
+        alertDialog.setMessage(id2String(R.string.score) + ": " + mGameView.getScore() +
+                "\n" + id2String(R.string.time) + ": " + time + " " + id2String(R.string.second) + "\n" +
+                id2String(R.string.restart_game));
+        alertDialog.setCancelable(false);
+        alertDialog.setPositiveButton(R.string.yes, (dialog, which) -> GameActivity.this.restartGame());
+        alertDialog.setNegativeButton(R.string.no, (dialog, which) -> {
+            SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
+            editor.putBoolean("fresh", false);
+            editor.apply();
+            GameActivity.this.onBackPressed();
+        });
+        alertDialog.show();
+        updateRankingListDB(getUserName(), mGameView.getScore(), (int) time);
+    }
 
     private String id2String(int id) {
         return getResources().getString(id);
@@ -142,6 +135,7 @@ public class GameActivity extends AppCompatActivity {
     private static final int UPDATE = 0x00;
     private static final int RESET_SCORE = 0x01;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +162,6 @@ public class GameActivity extends AppCompatActivity {
         mMediaPlayer = MediaPlayer.create(this, R.raw.sound_score);
         mMediaPlayer.setLooping(false);
 
-
         isFirstTouch = true;
         // Set the Timer
         isSetNewTimerThreadEnabled = true;
@@ -183,28 +176,18 @@ public class GameActivity extends AppCompatActivity {
         if (gameMode == TOUCH_MODE) {
             // Jump listener
             mGameView.setOnTouchListener((view, motionEvent) -> {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mGameView.jump();
-                        if (isFirstTouch) {
-                            if (isResumeGame) {
-                                mChronometer.setBase(SystemClock.elapsedRealtime() - lastLiveTime * 1000);
-                                mChronometer.start();
-                            } else {
-                                mChronometer.setBase(SystemClock.elapsedRealtime());
-                                mChronometer.start();
-                            }
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    mGameView.jump();
+                    if (isFirstTouch) {
+                        if (isResumeGame) {
+                            mChronometer.setBase(SystemClock.elapsedRealtime() - lastLiveTime * 1000);
+                            mChronometer.start();
+                        } else {
+                            mChronometer.setBase(SystemClock.elapsedRealtime());
+                            mChronometer.start();
                         }
-                        isFirstTouch = false;
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-
-
-                        break;
-
-                    default:
-                        break;
+                    }
+                    isFirstTouch = false;
                 }
 
                 return true;
@@ -286,7 +269,6 @@ public class GameActivity extends AppCompatActivity {
             mMediaPlayer = null;
         }
 
-
         isSetNewTimerThreadEnabled = false;
 
         super.onDestroy();
@@ -351,8 +333,6 @@ public class GameActivity extends AppCompatActivity {
                         setNewTimer();
                     }
                 }
-
-
             });
             setNewTimerThread.start();
         }
