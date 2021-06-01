@@ -55,6 +55,8 @@ public class GameActivity extends AppCompatActivity {
     private static final int TOUCH_MODE = 0x00;
     private Timer mTimer;
 
+    public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -122,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateRankingListDB(String username, int score, int time) {
         // 设置URI
-        Uri uri = Uri.parse("content://com.lc.flappybird.provider.RankListProvider/rankinglist");
+        Uri uri = Uri.parse(PROVIDER_URI);
 
         // 插入表中数据
         ContentValues values = new ContentValues();

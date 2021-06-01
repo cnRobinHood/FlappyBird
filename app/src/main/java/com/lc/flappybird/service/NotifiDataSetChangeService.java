@@ -17,6 +17,7 @@ import com.lc.flappybird.widget.RankingListAppWidgetProvider;
 public class NotifiDataSetChangeService extends Service {
     private ContentObserver mRankingListObserver;
     private static final String TAG = "NotifiDataSetChangeServ";
+    public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
 
     @Override
     public void onCreate() {
@@ -35,7 +36,7 @@ public class NotifiDataSetChangeService extends Service {
             }
 
         };
-        getContentResolver().registerContentObserver(Uri.parse("content://com.lc.flappybird.provider.RankListProvider/rankinglist"),
+        getContentResolver().registerContentObserver(Uri.parse(PROVIDER_URI),
                 true, mRankingListObserver);
     }
 

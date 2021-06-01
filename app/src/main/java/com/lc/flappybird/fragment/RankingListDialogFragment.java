@@ -26,6 +26,7 @@ public class RankingListDialogFragment extends DialogFragment {
     ImageButton mDismissImageButton;
     RankingListAdapter mRankingListAdapter;
     private List<UserData> mUserDataList;
+    public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
 
 
     @Nullable
@@ -46,7 +47,7 @@ public class RankingListDialogFragment extends DialogFragment {
     }
 
     private void getRankingList() {
-        Uri rankingListUri = Uri.parse("content://com.lc.flappybird.provider.RankListProvider/rankinglist");
+        Uri rankingListUri = Uri.parse(PROVIDER_URI);
         Cursor rankingListCursor = getActivity().getContentResolver().query(rankingListUri, new String[]{"username", "score", "time"}, null, null, null);
         if (rankingListCursor != null) {
             while (rankingListCursor.moveToNext()) {

@@ -16,6 +16,8 @@ import com.lc.flappybird.service.RankingListWidgetService;
 import java.util.List;
 
 public class RankingListAppWidgetProvider extends AppWidgetProvider {
+    public static final String PACKET_PATH = "com.lc.flappybird";
+    public static final String NOTIFIDATASETSERVICE_CLASSNAME = "com.lc.flappybird.service.NotifiDataSetChangeService";
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -38,8 +40,8 @@ public class RankingListAppWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         Intent intent = new Intent();
-        if (!isServiceExisted(context, "com.lc.flappybird.NotifiDataSetChangeService")) {
-            intent.setComponent(new ComponentName("com.lc.flappybird", "com.lc.flappybird.NotifiDataSetChangeService"));
+        if (!isServiceExisted(context, NOTIFIDATASETSERVICE_CLASSNAME)) {
+            intent.setComponent(new ComponentName(PACKET_PATH, NOTIFIDATASETSERVICE_CLASSNAME));
             try {
                 context.startService(intent);
             } catch (Exception e) {
@@ -52,7 +54,7 @@ public class RankingListAppWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         super.onDisabled(context);
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.lc.flappybird", "com.lc.flappybird.NotifiDataSetChangeService"));
+        intent.setComponent(new ComponentName(PACKET_PATH, NOTIFIDATASETSERVICE_CLASSNAME));
         context.stopService(intent);
     }
 

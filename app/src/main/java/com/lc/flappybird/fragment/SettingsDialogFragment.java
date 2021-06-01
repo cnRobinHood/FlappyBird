@@ -24,6 +24,7 @@ public class SettingsDialogFragment extends DialogFragment {
     private EditText mUserNameEditText;
     private SeekBar mSpeedBar;
     private SeekBar mVolumeBar;
+    public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
 
     @Nullable
     @Override
@@ -58,7 +59,7 @@ public class SettingsDialogFragment extends DialogFragment {
     private void deleteRankingListDB() {
         ContentResolver contentProvider = getActivity().getContentResolver();
         // 设置URI
-        Uri uri = Uri.parse("content://com.lc.flappybird.provider.RankListProvider/rankinglist");
+        Uri uri = Uri.parse(PROVIDER_URI);
         contentProvider.delete(uri, null, null);
 
     }

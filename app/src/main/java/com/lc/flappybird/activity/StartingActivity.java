@@ -22,14 +22,15 @@ import java.util.List;
 public class StartingActivity extends AppCompatActivity {
     private static final String TAG = "StartingActivity";
     private Button mResumeGameButton;
-
+    public static final String PACKET_PATH = "com.lc.flappybird";
+    public static final String NOTIFIDATASETSERVICE_CLASSNAME = "com.lc.flappybird.service.NotifiDataSetChangeService";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting);
         mResumeGameButton = findViewById(R.id.bt_resume_game);
-        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("fresh", false)) {
             Log.d(TAG, "onCreate: " + sharedPreferences.getBoolean("fresh", false));
             mResumeGameButton.setVisibility(View.VISIBLE);
@@ -43,9 +44,9 @@ public class StartingActivity extends AppCompatActivity {
         // Hide the status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (!isServiceExisted(this, "com.lc.flappybird.NotifiDataSetChangeService")) {
+        if (!isServiceExisted(this, NOTIFIDATASETSERVICE_CLASSNAME)) {
             Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.lc.flappybird", "com.lc.flappybird.NotifiDataSetChangeService"));
+            intent.setComponent(new ComponentName(PACKET_PATH, NOTIFIDATASETSERVICE_CLASSNAME));
             Log.d(TAG, "onEnabled: ");
             this.startService(intent);
         }
@@ -76,7 +77,7 @@ public class StartingActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        SharedPreferences sharedPreferences = getSharedPreferences("name",  MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("fresh", false)) {
             mResumeGameButton.setVisibility(View.INVISIBLE);
         }
