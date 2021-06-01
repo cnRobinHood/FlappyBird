@@ -84,7 +84,7 @@ public class RankingListWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return mUserDataList.size();
+            return mUserDataList.size() + 1;
         }
 
         /**
