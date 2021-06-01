@@ -58,7 +58,7 @@ public class RankingListWidgetService extends RemoteViewsService {
             }
             mUserDataList.sort((o1, o2) -> {
                 int result = o2.getScore().compareTo(o1.getScore());
-                Log.d(TAG, "getRankingList: score1 = "+o1.getScore()+"score2 = "+o2.getScore());
+                Log.d(TAG, "getRankingList: score1 = " + o1.getScore() + "score2 = " + o2.getScore());
                 if (0 == result) {
                     Log.d(TAG, "getRankingList: 1");
                     return o1.getTime().compareTo(o2.getTime());
@@ -73,7 +73,7 @@ public class RankingListWidgetService extends RemoteViewsService {
         public void onDataSetChanged() {
             mUserDataList.clear();
             getRankingList();
-            Log.d(TAG, "onDataSetChanged: "+mUserDataList.size());
+            Log.d(TAG, "onDataSetChanged: " + mUserDataList.size());
 
         }
 
@@ -95,11 +95,18 @@ public class RankingListWidgetService extends RemoteViewsService {
             if (position > mUserDataList.size()) {
                 return null;
             }
-            UserData userData = mUserDataList.get(position);
+
             RemoteViews rv = new RemoteViews(getPackageName(), R.layout.rankinglist_recycler_item);
-            rv.setTextViewText(R.id.tv_user_name, userData.getUserName());
-            rv.setTextViewText(R.id.tv_score, userData.getScore());
-            rv.setTextViewText(R.id.tv_game_time, userData.getTime());
+            if (0 == position) {
+                rv.setTextViewText(R.id.tv_user_name, id2String(R.string.user_name));
+                rv.setTextViewText(R.id.tv_score, id2String(R.string.score));
+                rv.setTextViewText(R.id.tv_game_time, id2String(R.string.time));
+            } else {
+                UserData userData = mUserDataList.get(position - 1);
+                rv.setTextViewText(R.id.tv_user_name, userData.getUserName());
+                rv.setTextViewText(R.id.tv_score, userData.getScore());
+                rv.setTextViewText(R.id.tv_game_time, userData.getTime());
+            }
             Intent intent = new Intent();
             intent.putExtra("position", position);
             rv.setOnClickFillInIntent(R.id.liner_item, intent);
@@ -131,6 +138,10 @@ public class RankingListWidgetService extends RemoteViewsService {
         @Override
         public boolean hasStableIds() {
             return false;
+        }
+
+        private String id2String(int id) {
+            return getResources().getString(id);
         }
     }
 
