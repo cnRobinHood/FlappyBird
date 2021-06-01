@@ -66,22 +66,16 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
 
     public GameView(Context context) {
         super(context);
-
-        // Initialize
         init();
     }
 
     public GameView(Context context, AttributeSet a) {
         super(context, a);
-
-        // Initialize
         init();
     }
 
     public GameView(Context context, AttributeSet a, int b) {
         super(context, a, b);
-
-        // Initialize
         init();
     }
 
