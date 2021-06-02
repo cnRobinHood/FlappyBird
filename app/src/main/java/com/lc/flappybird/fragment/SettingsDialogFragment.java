@@ -1,5 +1,6 @@
 package com.lc.flappybird.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -29,7 +30,7 @@ public class SettingsDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.setting, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.setting, null);
         initView(view);
         return view;
     }
@@ -65,6 +66,5 @@ public class SettingsDialogFragment extends DialogFragment {
         // 设置URI
         Uri uri = Uri.parse(PROVIDER_URI);
         contentProvider.delete(uri, null, null);
-
     }
 }

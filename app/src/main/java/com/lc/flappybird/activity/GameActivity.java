@@ -139,7 +139,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Hide the status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -181,11 +180,10 @@ public class GameActivity extends AppCompatActivity {
                     if (isFirstTouch) {
                         if (isResumeGame) {
                             mChronometer.setBase(SystemClock.elapsedRealtime() - lastLiveTime * 1000);
-                            mChronometer.start();
                         } else {
                             mChronometer.setBase(SystemClock.elapsedRealtime());
-                            mChronometer.start();
                         }
+                        mChronometer.start();
                     }
                     isFirstTouch = false;
                 }

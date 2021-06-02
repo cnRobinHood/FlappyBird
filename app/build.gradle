@@ -1,6 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        mysign {
+            storePassword '123456'
+            keyAlias '123456'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.lc.flappybird"

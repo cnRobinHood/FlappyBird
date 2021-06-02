@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/liner_widget"
     android:background="#FFF8E1"
+    android:alpha="0.8"
     >
 
     <TextView
