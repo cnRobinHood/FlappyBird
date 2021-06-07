@@ -27,7 +27,6 @@
             android:textSize="15sp" />
 
         <EditText
-            android:gravity="center"
             android:id="@+id/et_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,6 +34,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="3"
             android:background="@drawable/custom_edittext_background"
+            android:gravity="center"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -55,8 +55,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:max="15"
-            android:progress="0" />
+            android:max="@integer/speed_max"
+            android:progress="@integer/speed_default" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:max="10"
-            android:progress="5" />
+            android:progress="@integer/volume_default" />
     </LinearLayout>
 
     <Button

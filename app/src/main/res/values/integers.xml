@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="speed_max">15</integer>
+    <integer name="speed_default">0</integer>
+    <integer name="volume_max">10</integer>
+    <integer name="volume_default">5</integer>
+</resources>
