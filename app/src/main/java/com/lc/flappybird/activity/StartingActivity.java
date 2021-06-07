@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lc.flappybird.R;
 import com.lc.flappybird.fragment.RankingListDialogFragment;
 import com.lc.flappybird.fragment.SettingsDialogFragment;
+import com.lc.flappybird.util.ActivityCollector;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class StartingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting);
+        ActivityCollector.addActivity(this);
         mResumeGameButton = findViewById(R.id.bt_resume_game);
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("fresh", false)) {
@@ -82,7 +84,12 @@ public class StartingActivity extends AppCompatActivity {
             mResumeGameButton.setVisibility(View.INVISIBLE);
         }
         super.onResume();
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityCollector.removeAll();
     }
 
     public static boolean isServiceExisted(Context context, String className) {
