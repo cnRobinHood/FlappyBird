@@ -3,7 +3,7 @@
     style="@style/Theme.AppCompat.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="@color/colorBlue"
     android:orientation="vertical"
     >
 
@@ -13,6 +13,7 @@
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
         android:textSize="35sp" />
 
     <ImageView
@@ -20,7 +21,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="150dp"
         android:src="@drawable/ic_bird" />
 
 </LinearLayout>
