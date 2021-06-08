@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RankingListDialogFragment extends DialogFragment {
+    private static final String TAG = "RankingListDialogFragme";
     RecyclerView mRankingListRecyclerView;
     ImageButton mDismissImageButton;
     RankingListAdapter mRankingListAdapter;
@@ -56,11 +57,12 @@ public class RankingListDialogFragment extends DialogFragment {
                         Integer.valueOf(rankingListCursor.getInt(rankingListCursor.getColumnIndex("time"))).toString()));
             }
             rankingListCursor.close();
+
             mUserDataList.sort((o1, o2) -> {
-                if (0 == o2.getScore().compareTo(o1.getScore())) {
-                    return o1.getTime().compareTo(o2.getTime());
+                if (0 == Integer.parseInt(o2.getScore()) - Integer.parseInt(o1.getScore())) {
+                    return Integer.parseInt(o1.getTime()) - Integer.parseInt(o2.getTime());
                 } else {
-                    return o2.getScore().compareTo(o1.getScore());
+                    return Integer.parseInt(o2.getScore()) - Integer.parseInt(o1.getScore());
                 }
             });
         }

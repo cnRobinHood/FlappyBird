@@ -57,14 +57,10 @@ public class RankingListWidgetService extends RemoteViewsService {
                 rankingListCursor.close();
             }
             mUserDataList.sort((o1, o2) -> {
-                int result = o2.getScore().compareTo(o1.getScore());
-                Log.d(TAG, "getRankingList: score1 = " + o1.getScore() + "score2 = " + o2.getScore());
-                if (0 == result) {
-                    Log.d(TAG, "getRankingList: 1");
-                    return o1.getTime().compareTo(o2.getTime());
+                if (0 == Integer.parseInt(o2.getScore()) - Integer.parseInt(o1.getScore())) {
+                    return Integer.parseInt(o1.getTime()) - Integer.parseInt(o2.getTime());
                 } else {
-                    Log.d(TAG, "getRankingList: 2");
-                    return result;
+                    return Integer.parseInt(o2.getScore()) - Integer.parseInt(o1.getScore());
                 }
             });
         }
