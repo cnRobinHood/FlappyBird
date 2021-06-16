@@ -69,8 +69,6 @@ public class RankingListWidgetService extends RemoteViewsService {
         public void onDataSetChanged() {
             mUserDataList.clear();
             getRankingList();
-            Log.d(TAG, "onDataSetChanged: " + mUserDataList.size());
-
         }
 
         @Override

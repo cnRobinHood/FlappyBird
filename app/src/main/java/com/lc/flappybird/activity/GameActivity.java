@@ -56,6 +56,13 @@ public class GameActivity extends AppCompatActivity {
     private Timer mTimer;
 
     public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
+
+    //此handler用于
+    // 1.处理定时器画面更新
+    // 2.用户点击之后画面更新
+    // 3.用户是否存活的判断和处理
+    // 4.用户挂掉之后是否重新开始游戏的处理.
+
     @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
         @Override
@@ -89,6 +96,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
+    //用户gameover之后，停止定时器，显示用户分数，用时。并且把数据存入数据库。
     private void gameOverProcess() {
         mTimer.cancel();
         mTimer.purge();
@@ -111,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
         updateRankingListDB(getUserName(), mGameView.getScore(), (int) time);
     }
 
+    //用于将字符串ID转换成字符串。
     private String id2String(int id) {
         return getResources().getString(id);
     }
@@ -146,10 +155,12 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         isPaused = false;
         isResumeGame = false;
-        // Get the mode of the game from the StartingActivity
+
         if (getIntent().getStringExtra("Mode").equals("Touch")) {
             gameMode = TOUCH_MODE;
         }
+
+        //判断上一次游戏是否正常退出（关机，进程被杀死等）
         if ("true".equals(getIntent().getStringExtra("resume"))) {
             isResumeGame = true;
         }
@@ -157,19 +168,18 @@ public class GameActivity extends AppCompatActivity {
         initViews();
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         mTelephonyMgr.listen(new MyPhoneStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
-        // Initialize the MediaPlayer
+
+        // 初始化一个Mediaplayer用于背景音乐播放
         mMediaPlayer = MediaPlayer.create(this, R.raw.sound_score);
         mMediaPlayer.setLooping(false);
 
         isFirstTouch = true;
-        // Set the Timer
+
+        //设置新的定时器
         isSetNewTimerThreadEnabled = true;
-        setNewTimerThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (isSetNewTimerThreadEnabled) {
-                    setNewTimer();
-                }
+        setNewTimerThread = new Thread(() -> {
+            if (isSetNewTimerThreadEnabled) {
+                setNewTimer();
             }
         });
         if (gameMode == TOUCH_MODE) {
@@ -215,16 +225,13 @@ public class GameActivity extends AppCompatActivity {
         mPauseButton.setOnClickListener(v -> {
             if (isPaused) {
                 isPaused = false;
-                Log.d(TAG, "initViews:pauesTime " + pauseTime);
                 mChronometer.setBase(SystemClock.elapsedRealtime() - pauseTime * 1000);
                 mChronometer.start();
                 mPauseButton.setImageResource(R.drawable.ic_pause);
                 SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
-                Log.d(TAG, "initViews: ");
                 editor.putBoolean("fresh", false);
                 editor.apply();
                 SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
-                Log.d(TAG, "initViews: " + sharedPreferences.getBoolean("fresh", false));
             } else {
                 onPauesProcess();
             }
@@ -232,9 +239,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Sets the Timer to update the UI of the GameView.
-     */
+    //设置定时器更新GameView
     private void setNewTimer() {
         if (!isSetNewTimerThreadEnabled) {
             return;
@@ -246,16 +251,15 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (!isPaused) {
-                    // Send the message to the handler to update the UI of the GameView
+                    //在定时器中用Handler发送消息，定时更新UI
                     GameActivity.this.handler.sendEmptyMessage(UPDATE);
-                    // For garbage collection
-                    System.gc();
                 }
             }
 
         }, 0, 17);
     }
 
+    //执行释放定时器，释放mediaplayer的操作
     @Override
     protected void onDestroy() {
         if (mTimer != null) {
@@ -272,6 +276,7 @@ public class GameActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    //暂停时会保存当前状态
     @Override
     protected void onPause() {
         isSetNewTimerThreadEnabled = false;
@@ -286,18 +291,12 @@ public class GameActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-    /**
-     * Updates the displayed score.
-     *
-     * @param score The new score.
-     */
+    //更新界面显示的分数
     public void updateScore(int score) {
         mScoreTextView.setText(String.valueOf(score));
     }
 
-    /**
-     * Plays the music for score.
-     */
+    //播放背景音乐
     public void playScoreMusic() {
         if (gameMode == TOUCH_MODE) {
             mMediaPlayer.start();
@@ -305,31 +304,26 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //获取用户设置的背景音乐音量
     private float getVolume() {
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         return (float) (sharedPreferences.getInt("volume", 5));
     }
 
-    /**
-     * Restarts the game.
-     */
+    //重新启动游戏
     private void restartGame() {
-        // Reset all the data of the over game in the GameView
+        //重置当前游戏数据
         mGameView.resetData();
 
-        // Refresh the TextView for displaying the score
+        // 重置游戏界面显示的分数等信息
         new Thread(() -> handler.sendEmptyMessage(RESET_SCORE)).start();
 
         if (gameMode == TOUCH_MODE) {
             isSetNewTimerThreadEnabled = true;
-            setNewTimerThread = new Thread(new Runnable() {
+            setNewTimerThread = new Thread(() -> {
 
-                @Override
-                public void run() {
-
-                    if (isSetNewTimerThreadEnabled) {
-                        setNewTimer();
-                    }
+                if (isSetNewTimerThreadEnabled) {
+                    setNewTimer();
                 }
             });
             setNewTimerThread.start();
@@ -371,6 +365,7 @@ public class GameActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    //对来电呼入做暂停处理，同时保存现场。以便在进程被GC之后可以恢复现场
     private class MyPhoneStateListener extends PhoneStateListener {
 
         @Override
