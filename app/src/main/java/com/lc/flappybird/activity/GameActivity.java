@@ -54,6 +54,8 @@ public class GameActivity extends AppCompatActivity {
     private static final int TOUCH_MODE = 0x00;
     private Timer mTimer;
 
+    TelephonyManager mTelephonyMgr;
+    MyPhoneStateListener myPhoneStateListener;
     public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
 
     //此handler用于
@@ -165,8 +167,9 @@ public class GameActivity extends AppCompatActivity {
         }
         // Initialize the private views
         initViews();
-        TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        mTelephonyMgr.listen(new MyPhoneStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
+        mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        myPhoneStateListener = new MyPhoneStateListener();
+        mTelephonyMgr.listen(myPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         // 初始化一个Mediaplayer用于背景音乐播放
         mMediaPlayer = MediaPlayer.create(this, R.raw.sound_score);
@@ -271,7 +274,7 @@ public class GameActivity extends AppCompatActivity {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
-
+        mTelephonyMgr.listen(myPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         isSetNewTimerThreadEnabled = false;
 
         super.onDestroy();
