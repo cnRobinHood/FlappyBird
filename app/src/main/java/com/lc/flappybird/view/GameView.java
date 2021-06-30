@@ -160,7 +160,6 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
         positionX += velocityX;
         positionY += velocityY;
         velocityX += accelerationX;
-//        velocityY += accelerationY;
         // Only accelerate velocityY when it is not too large
         if (velocityY <= 10.0F) {
             velocityY += accelerationY;

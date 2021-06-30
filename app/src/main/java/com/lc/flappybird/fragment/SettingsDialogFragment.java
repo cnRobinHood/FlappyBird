@@ -21,6 +21,7 @@ import com.lc.flappybird.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
+//设置界面使用的DialogFragment
 public class SettingsDialogFragment extends DialogFragment {
     private EditText mUserNameEditText;
     private SeekBar mSpeedBar;
@@ -50,6 +51,7 @@ public class SettingsDialogFragment extends DialogFragment {
         mUserNameEditText.setText(username);
     }
 
+    //重写onDismiss方法，增加保存用户设置的内容
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);

@@ -13,7 +13,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -210,6 +209,8 @@ public class GameActivity extends AppCompatActivity {
         mScoreTextView = findViewById(R.id.text_view_score);
         mChronometer = findViewById(R.id.chronometer);
         mPauseButton = findViewById(R.id.ib_pause);
+
+        //如果是恢复游戏，那么就用保存在sharedpreferences中的数据恢复现场
         if (isResumeGame) {
             mGameView.pipeList.clear();
             mGameView.pipeList.addAll(LitePal.findAll(Pipe.class));
@@ -218,10 +219,10 @@ public class GameActivity extends AppCompatActivity {
             mGameView.positionY = sharedPreferences.getFloat("positionY", 0.0f);
             mGameView.score = sharedPreferences.getInt("score", 0);
             lastLiveTime = sharedPreferences.getLong("time", 0);
-            Log.d(TAG, "initViews: " + lastLiveTime);
             mScoreTextView.setText(String.valueOf(mGameView.getScore()));
         }
 
+        //暂停按钮的处理逻辑
         mPauseButton.setOnClickListener(v -> {
             if (isPaused) {
                 isPaused = false;
@@ -345,6 +346,7 @@ public class GameActivity extends AppCompatActivity {
         return sharedPreferences.getString("userName", "temp");
     }
 
+    //对用户点击暂停，返回桌面，来电话等情况的保存现场的具体处理
     private void onPauesProcess() {
         isPaused = true;
         mChronometer.stop();

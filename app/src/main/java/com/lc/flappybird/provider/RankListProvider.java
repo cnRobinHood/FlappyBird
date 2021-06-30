@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.lc.flappybird.util.RankListDBHelper;
 
-
+//使用ContentProvider来间接操作数据库实现排行榜的持久化保存
 public class RankListProvider extends ContentProvider {
     private static final String TAG = "RankListProvider";
     private Context mContext;
@@ -46,7 +46,6 @@ public class RankListProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-
         return db.query(RankListDBHelper.USER_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder, null);
     }
 

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +35,6 @@ public class StartingActivity extends AppCompatActivity {
         mResumeGameButton = findViewById(R.id.bt_resume_game);
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("fresh", false)) {
-            Log.d(TAG, "onCreate: " + sharedPreferences.getBoolean("fresh", false));
             mResumeGameButton.setVisibility(View.VISIBLE);
         }
         mResumeGameButton.setOnClickListener(v -> {
@@ -51,6 +51,12 @@ public class StartingActivity extends AppCompatActivity {
             intent.setComponent(new ComponentName(PACKET_PATH, NOTIFIDATASETSERVICE_CLASSNAME));
             Log.d(TAG, "onEnabled: ");
             this.startService(intent);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                this.startForegroundService(intent);
+            } else {
+                this.startService(new Intent(intent));
+            }
         }
     }
 

@@ -21,6 +21,7 @@ import com.lc.flappybird.domain.UserData;
 import java.util.ArrayList;
 import java.util.List;
 
+//APP内显示的排行榜界面，用DialogFragment实现
 public class RankingListDialogFragment extends DialogFragment {
     private static final String TAG = "RankingListDialogFragme";
     RecyclerView mRankingListRecyclerView;

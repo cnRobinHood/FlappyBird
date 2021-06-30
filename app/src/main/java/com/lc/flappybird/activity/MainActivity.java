@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private Handler handler = new Handler();
+    public static final int ANIMATION_TIME = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,28 +29,26 @@ public class MainActivity extends AppCompatActivity {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         ActivityCollector.addActivity(this);
-        // Example of a call to a native method
         imageView = findViewById(R.id.img_doge);
         setAnimation();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, StartingActivity.class);
-                startActivity(intent);
-            }
-        }, 1500);
+
+        //设置定时器1.5s之后跳转到主界面
+        handler.postDelayed(() -> {
+            Intent intent = new Intent(MainActivity.this, StartingActivity.class);
+            startActivity(intent);
+        }, ANIMATION_TIME);
     }
 
+    //启用一个1.5s的旋转动画
     private void setAnimation() {
         RotateAnimation animation = new RotateAnimation
                 (0, 360, RELATIVE_TO_SELF, (float) 0.50, RELATIVE_TO_SELF, (float) 0.50);
-        animation.setDuration(1500);
+        animation.setDuration(ANIMATION_TIME);
         imageView.setAnimation(animation);
         animation.start();
-
-
     }
 
+    //重写onBackPressed，让用户在这个阶段无法返回
     @Override
     public void onBackPressed() {
 

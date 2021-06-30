@@ -14,6 +14,7 @@ import com.lc.flappybird.domain.UserData;
 
 import java.util.List;
 
+//app内显示的排行榜的recyclerview的adapter
 public class RankingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<UserData> mUserDataList;
     private final Context mContext;
@@ -32,12 +33,15 @@ public class RankingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //设置第一行显示title（时间，分数，用户名）
         if (0 == position) {
             ((RankListViewHolder) holder).mGameTimeTextView.setText(R.string.time);
             ((RankListViewHolder) holder).mScoreTextView.setText(R.string.score);
             ((RankListViewHolder) holder).mUserNameTextView.setText(R.string.user_name);
             return;
         }
+
+        //由于第一行显示了title，数据列就从第二行开始显示
         position -= 1;
         ((RankListViewHolder) holder).mGameTimeTextView.setText(mUserDataList.get(position).getTime());
         ((RankListViewHolder) holder).mScoreTextView.setText(mUserDataList.get(position).getScore());
@@ -60,6 +64,5 @@ public class RankingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             mScoreTextView = itemView.findViewById(R.id.tv_score);
             mGameTimeTextView = itemView.findViewById(R.id.tv_game_time);
         }
-
     }
 }

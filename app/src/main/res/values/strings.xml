@@ -3,7 +3,7 @@
     <string name="bt_start">Start Game</string>
     <string name="bt_setting">Settings</string>
     <string name="setting">Setting</string>
-    <string name="user_name">username</string>
+    <string name="user_name">user</string>
     <string name="speed">speed</string>
     <string name="volume">volume</string>
     <string name="clear_rank_data">clear rank data</string>
