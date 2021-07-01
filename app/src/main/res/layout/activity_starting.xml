@@ -4,24 +4,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/game_background">
 
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_title" />
+
     <LinearLayout
         android:id="@+id/activity_starting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
-
-        <!-- The title -->
-        <ImageView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="150dp"
-            android:src="@drawable/ic_title" />
-
         <!-- The two buttons -->
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
@@ -37,25 +36,26 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_setting"
                 android:text="@string/bt_setting" />
+
             <Button
                 android:id="@+id/bt_resume_game"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="200dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/border_line_while"
                 android:text="@string/resume_game"
                 android:textAllCaps="false"
-                android:visibility="invisible"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:visibility="invisible" />
 
             <Button
+                android:layout_marginTop="8dp"
                 android:id="@+id/bt_start_game"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-
-                android:background="@android:color/transparent"
+                android:background="@drawable/border_line_while"
                 android:onClick="goToGameActivity"
                 android:text="@string/bt_start"
                 android:textAllCaps="false"
