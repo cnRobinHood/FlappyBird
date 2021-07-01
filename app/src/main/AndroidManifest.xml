@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <queries>
         <provider android:authorities="com.demo.flappybirdprovider.RankListProvider" />
@@ -17,8 +17,12 @@
         android:roundIcon="@drawable/ic_bird"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.lc.flappybird.activity.StartingActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name="com.lc.flappybird.activity.StartingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +30,8 @@
         </activity>
         <activity
             android:name="com.lc.flappybird.activity.GameActivity"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
 
         <receiver android:name="com.lc.flappybird.widget.RankingListAppWidgetProvider">
             <intent-filter>
