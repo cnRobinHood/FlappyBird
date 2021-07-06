@@ -4,6 +4,6 @@
     <integer name="speed_default">0</integer>
     <integer name="volume_max">10</integer>
     <integer name="volume_default">5</integer>
-    <integer name="sigle_line">1</integer>
+    <integer name="single_line">1</integer>
     <integer name="et_max_chars">6</integer>
 </resources>

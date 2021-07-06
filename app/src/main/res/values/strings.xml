@@ -17,4 +17,7 @@
     <string name="no">no</string>
     <string name="restart_game">Would you like to RESTART?</string>
     <string name="second">seconds</string>
+    <string name="bt_version">version info</string>
+    <string name="empty_user_toast">username is empty,use the default username \'temp\'</string>
+    <string name="clear_data_toast">data has already cleared</string>
 </resources>

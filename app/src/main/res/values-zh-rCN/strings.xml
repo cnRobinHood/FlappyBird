@@ -17,5 +17,7 @@
     <string name="no">否</string>
     <string name="restart_game">重新开始游戏?</string>
     <string name="second">秒</string>
-
+    <string name="bt_version">版本信息</string>
+    <string name="empty_user_toast">用户名为空，将使用默认用户名 \'temp\'</string>
+    <string name="clear_data_toast">数据已经被清除</string>
 </resources>

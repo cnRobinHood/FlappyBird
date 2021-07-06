@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:text="@string/setting"
-        android:textSize="25sp" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:text="@string/user_name"
-            android:textSize="15sp" />
+            android:text="@string/setting"
+            android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="3"
-            android:lines="@integer/sigle_line"
-            android:maxLength="@integer/et_max_chars"
-            android:background="@drawable/custom_edittext_background"
-            android:gravity="center"
-            android:textSize="15sp" />
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/user_name"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="3"
+                android:background="@drawable/custom_edittext_background"
+                android:gravity="center"
+                android:lines="@integer/single_line"
+                android:maxLength="@integer/et_max_chars"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/speed"
+                android:textSize="15sp" />
+
+            <SeekBar
+                android:id="@+id/sb_speed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:max="@integer/speed_max"
+                android:progress="@integer/speed_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/volume"
+                android:textSize="15sp" />
+
+            <SeekBar
+                android:id="@+id/sb_volume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:max="10"
+                android:progress="@integer/volume_default" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_clear_rankdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_line_red"
+            android:text="@string/clear_rank_data" />
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/speed"
-            android:textSize="15sp" />
-
-        <SeekBar
-            android:id="@+id/sb_speed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:max="@integer/speed_max"
-            android:progress="@integer/speed_default" />
-    </LinearLayout>
-
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/pb_clear_data"
+        android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/volume"
-            android:textSize="15sp" />
-
-        <SeekBar
-            android:id="@+id/sb_volume"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:max="10"
-            android:progress="@integer/volume_default" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bt_clear_rankdata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/clear_rank_data" />
-
-
-</LinearLayout>
+        android:layout_height="wrap_content"/>
+</FrameLayout>

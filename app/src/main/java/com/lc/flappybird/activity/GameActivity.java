@@ -235,7 +235,6 @@ public class GameActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
                 editor.putBoolean("fresh", false);
                 editor.apply();
-                SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
             } else {
                 onPauesProcess();
             }
