@@ -32,11 +32,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="200dp"
-                android:background="@drawable/border_line_white"
+                android:background="@drawable/border_line_grey"
                 android:text="@string/resume_game"
                 android:textAllCaps="false"
-                android:textSize="30sp"
-                android:visibility="invisible" />
+                android:clickable="false"
+                android:textSize="30sp" />
 
 
             <Button
@@ -70,7 +70,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/border_line_white"
-                android:onClick="showSettingsDialog"
+                android:onClick="showVersionInfoDialog"
                 android:src="@drawable/ic_setting"
                 android:text="@string/bt_version"
                 android:textSize="30sp" />

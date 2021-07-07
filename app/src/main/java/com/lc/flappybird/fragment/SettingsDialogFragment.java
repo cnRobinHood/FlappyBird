@@ -34,7 +34,6 @@ public class SettingsDialogFragment extends DialogFragment {
     private static final int STOP_PROGRESS_BAR = 1;
     public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
     Handler handler = new Handler(){
-        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -76,7 +75,7 @@ public class SettingsDialogFragment extends DialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("name", MODE_PRIVATE).edit();
-        if ("".equals(mUserNameEditText.getText().toString())) {
+        if ("".equals(mUserNameEditText.getText().toString().trim())) {
             Toast.makeText(getActivity(), id2String(R.string.empty_user_toast), Toast.LENGTH_SHORT).show();
             editor.putString("userName", "temp");
         } else {

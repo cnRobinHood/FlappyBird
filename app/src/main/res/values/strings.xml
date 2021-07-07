@@ -20,4 +20,12 @@
     <string name="bt_version">version info</string>
     <string name="empty_user_toast">username is empty,use the default username \'temp\'</string>
     <string name="clear_data_toast">data has already cleared</string>
+    <string name="check_update">check for update</string>
+    <string name="version_info">Version Info</string>
+    <string name="current_version">Current Version:</string>
+    <string name="remote_version">please click to get remote version</string>
+    <string name="get_update">Download</string>
+    <string name="update_found">update found</string>
+    <string name="update_not_found">update not found</string>
+    <string name="network_error">network error!</string>
 </resources>

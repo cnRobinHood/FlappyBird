@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lc.flappybird.R;
 import com.lc.flappybird.fragment.RankingListDialogFragment;
 import com.lc.flappybird.fragment.SettingsDialogFragment;
+import com.lc.flappybird.fragment.UpdateFlappyBirdDialogFragment;
 import com.lc.flappybird.util.ActivityCollector;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class StartingActivity extends AppCompatActivity {
         mResumeGameButton = findViewById(R.id.bt_resume_game);
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("fresh", false)) {
-            mResumeGameButton.setVisibility(View.VISIBLE);
+            mResumeGameButton.setBackgroundResource(R.drawable.border_line_white);
+            mResumeGameButton.setClickable(true);
         }
         mResumeGameButton.setOnClickListener(v -> {
             Intent intent = new Intent(StartingActivity.this, GameActivity.class);
@@ -76,6 +78,10 @@ public class StartingActivity extends AppCompatActivity {
         RankingListDialogFragment rankingListDialogFragment = new RankingListDialogFragment();
         rankingListDialogFragment.show(getSupportFragmentManager(), "dialog");
     }
+    public void showVersionInfoDialog(View view) {
+        UpdateFlappyBirdDialogFragment updateFlappyBirdDialogFragment = new UpdateFlappyBirdDialogFragment();
+        updateFlappyBirdDialogFragment.show(getSupportFragmentManager(), "dialog");
+    }
 
     @Override
     protected void onDestroy() {
@@ -87,7 +93,7 @@ public class StartingActivity extends AppCompatActivity {
     protected void onResume() {
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("fresh", false)) {
-            mResumeGameButton.setVisibility(View.INVISIBLE);
+            mResumeGameButton.setClickable(false);
         }
         super.onResume();
     }
