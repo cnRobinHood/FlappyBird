@@ -40,6 +40,7 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
     private String latestVersion;
     private final int ERROR = -1;
     private final int SUCCESS = 0;
+    @SuppressLint("HandlerLeak")
     Handler mHander = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
