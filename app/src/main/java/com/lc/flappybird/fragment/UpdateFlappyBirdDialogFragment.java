@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class UpdateFlappyBirdDialogFragment extends DialogFragment {
+    private static final String TAG = "UpdateFlappyBirdDialogF";
     private TextView mCurrentVersionTextView;
     private TextView mRemoteTextView;
     private Button mCheckUpdateButton;
@@ -54,7 +56,9 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
                     mCheckUpdatePB.setVisibility(View.GONE);
                     break;
                 case ERROR:
-                    Toast.makeText(getActivity(), id2String(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    if (isAdded()) {
+                        Toast.makeText(getActivity(), id2String(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
             }
@@ -79,10 +83,11 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
         mUpdateButton.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
-            Uri content_url = Uri.parse("https://www.baidu.com");
+            Uri content_url = Uri.parse("http://101.34.90.135:8080/flappybird/latest.apk");
             intent.setData(content_url);
             startActivity(intent);
         });
+        mUpdateButton.setClickable(false);
         return view;
     }
 
@@ -109,7 +114,7 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
     }
 
     private void getLatestVersionFromServer() {
-        String url = "https://www.baidu.com";
+        String url = "http://101.34.90.135:8080/flappybird/version.txt";
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url)
@@ -119,6 +124,7 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
                 mHander.sendEmptyMessage(ERROR);
             }
 

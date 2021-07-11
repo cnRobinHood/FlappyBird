@@ -97,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
+
     //用户gameover之后，停止定时器，显示用户分数，用时。并且把数据存入数据库。
     private void gameOverProcess() {
         mTimer.cancel();
@@ -140,6 +141,7 @@ public class GameActivity extends AppCompatActivity {
         // 通过ContentResolver 根据URI 向ContentProvider中插入数据
         resolver.insert(uri, values);
     }
+
 
     // The what values of the messages
     private static final int UPDATE = 0x00;
@@ -335,12 +337,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer.purge();
-        }
-        isSetNewTimerThreadEnabled = false;
-        super.onBackPressed();
+
     }
 
     private String getUserName() {
