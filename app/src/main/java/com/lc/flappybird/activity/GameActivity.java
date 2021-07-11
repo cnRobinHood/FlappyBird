@@ -337,7 +337,14 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        if (isGameOver) {
+            if (mTimer != null) {
+                mTimer.cancel();
+                mTimer.purge();
+            }
+            isSetNewTimerThreadEnabled = false;
+            super.onBackPressed();
+        }
     }
 
     private String getUserName() {
