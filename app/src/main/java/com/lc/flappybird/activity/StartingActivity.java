@@ -94,6 +94,7 @@ public class StartingActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("name", MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("fresh", false)) {
             mResumeGameButton.setClickable(false);
+            mResumeGameButton.setBackgroundResource(R.drawable.border_line_grey);
         }
         super.onResume();
     }
