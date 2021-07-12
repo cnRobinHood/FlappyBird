@@ -56,7 +56,7 @@
                 android:id="@+id/tv_remote_version"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:text="@string/remote_version"
+                android:text="@string/remote_version_text"
                 android:gravity="center_horizontal"
                 android:layout_height="match_parent"/>
         </LinearLayout>
