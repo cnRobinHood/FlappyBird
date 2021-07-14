@@ -19,15 +19,17 @@
 
         <LinearLayout
             android:layout_margin="30dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_start_or_stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/start_or_stop"
+                android:text="@string/stop"
                 android:textSize="20sp" />
 
             <ImageButton
@@ -41,7 +43,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:orientation="vertical">
@@ -58,15 +61,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal"
                 android:background="#00000000"
                 android:text="0"
                 android:textColor="#06F810"
-                android:textSize="40sp" />
+                android:textSize="25sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_margin="30dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -84,7 +89,7 @@
                 android:background="#00000000"
                 android:gravity="center_vertical"
                 android:textColor="#06F810"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -29,5 +29,6 @@
     <string name="update_found">有新版本了哦</string>
     <string name="update_not_found">没发现新版本</string>
     <string name="network_error">网络连接错误!</string>
-    <string name="start_or_stop">开始/暂停</string>
+    <string name="start">继续</string>
+    <string name="stop">暂停</string>
 </resources>

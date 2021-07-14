@@ -36,11 +36,12 @@ public class GameActivity extends AppCompatActivity {
 
     private GameView mGameView;
     private TextView mScoreTextView;
+    private TextView mStartStopTextView;
     private Chronometer mChronometer;
     private ImageButton mPauseButton;
+
     private boolean isFirstTouch;
     private boolean isGameOver;
-
     private boolean isSetNewTimerThreadEnabled;
     public boolean isResumeGame;
     private Thread setNewTimerThread;
@@ -214,6 +215,7 @@ public class GameActivity extends AppCompatActivity {
         mScoreTextView = findViewById(R.id.text_view_score);
         mChronometer = findViewById(R.id.chronometer);
         mPauseButton = findViewById(R.id.ib_pause);
+        mStartStopTextView = findViewById(R.id.tv_start_or_stop);
 
         //如果是恢复游戏，那么就用保存在sharedpreferences中的数据恢复现场
         if (isResumeGame) {
@@ -234,6 +236,7 @@ public class GameActivity extends AppCompatActivity {
                 mChronometer.setBase(SystemClock.elapsedRealtime() - pauseTime * 1000);
                 mChronometer.start();
                 mPauseButton.setImageResource(R.drawable.ic_pause);
+                mStartStopTextView.setText(R.string.stop);
                 SharedPreferences.Editor editor = getSharedPreferences("name", MODE_PRIVATE).edit();
                 editor.putBoolean("fresh", false);
                 editor.apply();
@@ -357,6 +360,7 @@ public class GameActivity extends AppCompatActivity {
         isPaused = true;
         mChronometer.stop();
         mPauseButton.setImageResource(R.drawable.ic_start);
+        mStartStopTextView.setText(R.string.start);
         LitePal.deleteAll(Pipe.class);
         LitePal.markAsDeleted(mGameView.pipeList);
         LitePal.saveAll(mGameView.pipeList);
