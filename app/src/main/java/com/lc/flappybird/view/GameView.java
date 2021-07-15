@@ -123,6 +123,9 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
     public void update() {
         mPaint.setStyle(Paint.Style.FILL);
         Canvas canvas = lockCanvas();
+        if (null == canvas) {
+            return;
+        }
         // Clear the canvas
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
