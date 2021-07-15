@@ -33,13 +33,16 @@ public class SettingsDialogFragment extends DialogFragment {
     private ProgressBar mprogressBar;
     private static final int STOP_PROGRESS_BAR = 1;
     public static final String PROVIDER_URI = "content://com.lc.flappybird.provider.RankListProvider/rankinglist";
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case STOP_PROGRESS_BAR:
-                    mprogressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), id2String(R.string.clear_data_toast), Toast.LENGTH_SHORT).show();
+                    if (isAdded()) {
+                        mprogressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), id2String(R.string.clear_data_toast), Toast.LENGTH_SHORT).show();
+                    }
                 default:
 
             }
