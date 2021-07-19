@@ -316,7 +316,6 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
 
         // Add the initial pipe
         if (!((GameActivity) getContext()).isResumeGame) {
-            Log.d(TAG, "resetData: ");
             addPipe();
         }
     }
@@ -325,7 +324,6 @@ public class GameView extends TextureView implements TextureView.SurfaceTextureL
      * Adds a pipe into the list of pipes.
      */
     private void addPipe() {
-        Log.d(TAG, "addPipe: ");
         pipeList.add(new Pipe(mMeasuredWidth + pipeWidth / 2.0f,
                 base + (mMeasuredHeight - 2 * base - gap) * new Random().nextFloat()));
     }

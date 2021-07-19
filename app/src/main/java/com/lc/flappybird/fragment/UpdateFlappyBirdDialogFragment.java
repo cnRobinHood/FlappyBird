@@ -45,15 +45,17 @@ public class UpdateFlappyBirdDialogFragment extends DialogFragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case SUCCESS:
-                    if (!latestVersion.equals(getCurrentVersion())) {
-                        mUpdateButton.setBackgroundResource(R.drawable.border_line_white);
-                        mUpdateButton.setClickable(true);
-                        Toast.makeText(getActivity(), id2String(R.string.update_found), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), id2String(R.string.update_not_found), Toast.LENGTH_SHORT).show();
+                    if (isAdded()) {
+                        if (!latestVersion.equals(getCurrentVersion())) {
+                            mUpdateButton.setBackgroundResource(R.drawable.border_line_white);
+                            mUpdateButton.setClickable(true);
+                            Toast.makeText(getActivity(), id2String(R.string.update_found), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), id2String(R.string.update_not_found), Toast.LENGTH_SHORT).show();
+                        }
+                        mRemoteTextView.setText(latestVersion);
+                        mCheckUpdatePB.setVisibility(View.GONE);
                     }
-                    mRemoteTextView.setText(latestVersion);
-                    mCheckUpdatePB.setVisibility(View.GONE);
                     break;
                 case ERROR:
                     if (isAdded()) {
